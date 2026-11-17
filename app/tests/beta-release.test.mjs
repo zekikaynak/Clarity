@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {release} from '../public/release.js';
+import {donations} from '../public/support.js';
+import {chartComponentURL} from '../public/chart-language.js';
+import {dependencyState} from '../launcher.mjs';
+test('Beta 1.0 is one consistent release identity across UI, package and BAT',()=>{const pkg=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url),'utf8'));assert.equal(release.label,'Clarity Beta 1.0');assert.equal(release.version,pkg.version);assert.ok(fs.existsSync(new URL('../../Start%20Clarity.bat',import.meta.url)));assert.equal(fs.existsSync(new URL('../../Clarity.exe',import.meta.url)),false);});
+test('native chart language is determined by the official component resource, not just an ignored attribute',()=>{assert.equal(chartComponentURL('en'),'https://widgets.tradingview-widget.com/w/en/tv-advanced-chart.js');assert.equal(chartComponentURL('tr'),'https://widgets.tradingview-widget.com/w/tr/tv-advanced-chart.js');});
+test('all four support addresses retain their exact asset and network pairing',()=>{assert.deepEqual(donations.map(({asset,network,address})=>[asset,network,address]),[['USDT','TRC20','TYJ1QQ5xQAvEWH4GatUy5XFFjknadHX1ck'],['USDT','BEP20','0xde34fd0cfb5b1235039ff9d69f84d71805c4db96'],['USDC','SOL','FH9LjUDyax3uUDMyvX4QpwXJ2Bf4DMiBVArXRHmvfeov'],['USDC','POLYGON','0xde34fd0cfb5b1235039ff9d69f84d71805c4db96']]);});
+test('launcher verifies the installed production dependencies against locked versions',()=>{assert.deepEqual(dependencyState().filter(x=>!x.ok),[]);assert.equal(dependencyState().length,4);});

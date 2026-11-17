@@ -1,0 +1,8 @@
+import {language} from './i18n.js';
+export const displayTimeZone='Europe/Istanbul';
+const valid=value=>{if(value==null||value==='')return null;const d=value instanceof Date?value:new Date(value);return Number.isNaN(+d)?null:d;};
+export function dateFormat(value,{lang=language,month='numeric',year=true,timeZone=displayTimeZone}={}){const d=valid(value);if(!d)return '—';return new Intl.DateTimeFormat(lang==='tr'?'tr-TR':'en-US',{timeZone,day:month==='numeric'||lang==='tr'?'2-digit':'numeric',month:month==='numeric'?'2-digit':month,...(year?{year:'numeric'}:{})}).format(d);}
+export function timeFormat(value,{lang=language,seconds=false,zone=false,timeZone=displayTimeZone}={}){const d=valid(value);if(!d)return '—';return new Intl.DateTimeFormat(lang==='tr'?'tr-TR':'en-US',{timeZone,hour:'2-digit',minute:'2-digit',...(seconds?{second:'2-digit'}:{}),hour12:lang==='en',...(zone?{timeZoneName:'short'}:{})}).format(d);}
+export function dateTimeFormat(value,options={}){return `${dateFormat(value,options)} · ${timeFormat(value,options)}`;}
+export function dateOnlyFormat(value,{lang=language}={}){const match=String(value??'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(!match)return dateFormat(value,{lang});const date=new Date(Date.UTC(+match[1],+match[2]-1,+match[3],12));if(date.getUTCFullYear()!==+match[1]||date.getUTCMonth()+1!==+match[2]||date.getUTCDate()!==+match[3])return '—';return dateFormat(date,{lang,timeZone:'UTC'});}
+export function monthFormat(value,{lang=language}={}){const match=String(value??'').match(/^(\d{4})-(\d{2})$/);if(!match)return String(value??'');return new Intl.DateTimeFormat(lang==='tr'?'tr-TR':'en-US',{timeZone:'UTC',month:'long',year:'numeric'}).format(new Date(Date.UTC(+match[1],+match[2]-1,1)));}
