@@ -24,3 +24,6 @@
 - A separate beta.0 test installation downloaded the real GitHub release, verified/extracted it, upgraded to beta.1 and retained app/.env and app/data/preservation-test.json exactly. A full backup and committed transaction were present.
 - The same upgrade was then repeated through Start Clarity.bat: the BAT received the update result, rechecked the new version and automatically started the beta.1 server. Interrupted app-directory recovery was also exercised through the BAT itself.
 - These preservation markers test the updater's filesystem behavior; they are not an export or persistence test of third-party TradingView drawings.
+
+## Update 2 · 1.0.0-beta.2
+65 tests passed. The 8-entry primary menu and 6-entry tools panel retain all 13 destinations. Six viewport sizes from 390 px mobile to 3440 px ultrawide showed no navigation or horizontal page overflow. English overview and native-English terminal screenshots are included under docs/media; they are live captures, not mockups.
