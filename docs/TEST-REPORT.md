@@ -20,3 +20,7 @@
 - All 13 navigation destinations fit without menu overflow at 3440x1440, 1920x1080, 1366x768, 1280x600, 844x390 and 390x844.
 - The running launcher/server were stopped, then Start Clarity.bat performed successful local prerequisite checks and started the server with automatic browser opening.
 - The generated update ZIP was extracted by the actual Windows extraction routine and all 3111 file hashes were verified. Source repository: zekikaynak/Clarity.
+- Published v1.0.0-beta.1 at https://github.com/zekikaynak/Clarity/releases/tag/v1.0.0-beta.1 with the portable Windows package and matching update manifest/archive.
+- A separate beta.0 test installation downloaded the real GitHub release, verified/extracted it, upgraded to beta.1 and retained app/.env and app/data/preservation-test.json exactly. A full backup and committed transaction were present.
+- The same upgrade was then repeated through Start Clarity.bat: the BAT received the update result, rechecked the new version and automatically started the beta.1 server. Interrupted app-directory recovery was also exercised through the BAT itself.
+- These preservation markers test the updater's filesystem behavior; they are not an export or persistence test of third-party TradingView drawings.
