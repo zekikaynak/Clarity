@@ -12,6 +12,8 @@ if not defined NODE_BIN for /f "delims=" %%N in ('where node.exe 2^>nul') do if 
 if not defined NODE_BIN call :INSTALL_NODE
 if not defined NODE_BIN goto :FAILED
 :RUN
+powershell.exe -NoLogo -NoProfile -Command "$ErrorActionPreference='Stop'; $area=Join-Path $env:CLARITY_ROOT 'runtime\updates'; $journal=Join-Path $area 'transaction.json'; if(Test-Path -LiteralPath $journal){$state=Get-Content -LiteralPath $journal -Raw|ConvertFrom-Json; if($state.id -notmatch '^[a-z0-9-]+$'){throw 'Invalid update recovery journal'}; $job=[IO.Path]::GetFullPath((Join-Path $area $state.id)); $safe=[IO.Path]::GetFullPath($area)+[IO.Path]::DirectorySeparatorChar; if(-not $job.StartsWith($safe,[StringComparison]::OrdinalIgnoreCase)){throw 'Invalid recovery path'}; $backup=Join-Path $job 'backup-app'; $target=Join-Path $env:CLARITY_ROOT 'app'; if(Test-Path -LiteralPath $backup){if(Test-Path -LiteralPath $target){Move-Item -LiteralPath $target -Destination (Join-Path $job ('failed-app-'+[Guid]::NewGuid().ToString('N')))}; Move-Item -LiteralPath $backup -Destination $target; Write-Host '[UPDATE] Interrupted update restored.' -ForegroundColor Yellow}else{if($state.phase -ne 'prepared'){throw 'Update backup missing'}}; Move-Item -LiteralPath $journal -Destination (Join-Path $job 'recovered.json')}"
+if errorlevel 1 goto :FAILED
 if not exist "%CLARITY_ROOT%app\updater.mjs" goto :LAUNCH
 "%NODE_BIN%" "%CLARITY_ROOT%app\updater.mjs" %*
 if errorlevel 44 goto :FAILED
@@ -19,18 +21,13 @@ if errorlevel 43 goto :RUN
 :LAUNCH
 "%NODE_BIN%" "%CLARITY_ROOT%app\launcher.mjs" %*
 set "CLARITY_RESULT=%ERRORLEVEL%"
-if "%CLARITY_RESULT%"=="42" (
- call :INSTALL_NODE
- if errorlevel 1 goto :FAILED
- goto :RUN
-if not exist "%CLARITY_ROOT%app\updater.mjs" goto :LAUNCH
-"%NODE_BIN%" "%CLARITY_ROOT%app\updater.mjs" %*
-if errorlevel 44 goto :FAILED
-if errorlevel 43 goto :RUN
-:LAUNCH
-)
+if "%CLARITY_RESULT%"=="42" goto :NEED_NPM
 if not "%CLARITY_RESULT%"=="0" goto :FAILED
 exit /b 0
+:NEED_NPM
+call :INSTALL_NODE
+if errorlevel 1 goto :FAILED
+goto :RUN
 :CHECK_NODE
 "%~1" -e "process.exit(Number(process.versions.node.split('.')[0]) >= 24 ? 0 : 1)" >nul 2>&1
 if not errorlevel 1 set "NODE_BIN=%~1"
