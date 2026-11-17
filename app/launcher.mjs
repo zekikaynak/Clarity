@@ -28,7 +28,7 @@ export async function main(){
  line('OK','Node.js '+process.versions.node);
  let deps=dependencyState();deps.forEach(x=>line(x.ok?'OK':'WARN',x.name+' · '+t(x.ok?'Hazır':'Eksik veya farklı sürüm',x.ok?'Ready':'Missing or mismatched version')));
  if(deps.some(x=>!x.ok)){
-  const npm=npmPath();if(!npm){line('WARN',t('Paket kurulumu için npm gerekiyor. Taşınabilir Node.js kurulumu teklif edilecek.','npm is needed to install packages. The portable Node.js setup will be offered.'));return 42;}
+  const npm=npmPath();if(!npm){line('WARN',t('Paket kurulumu için npm gerekiyor. Node.js kurulumu teklif edilecek.','npm is needed to install packages. The Node.js setup will be offered.'));return 42;}
   if(process.argv.includes('--check'))return 2;
   if(!await ask(t('Eksik paketler kilitli sürümlerle kurulsun mu? [E/H]: ','Install the missing packages at their locked versions? [Y/N]: ')))return 2;
   const result=spawnSync(process.env.ComSpec||'cmd.exe',['/d','/s','/c',`""${npm}" ci --omit=dev --ignore-scripts"`],{cwd:app,stdio:'inherit',env:{...process.env,PATH:path.dirname(process.execPath)+path.delimiter+process.env.PATH}});

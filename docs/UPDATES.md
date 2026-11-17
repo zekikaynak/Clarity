@@ -13,6 +13,6 @@ A running Clarity session is never terminated by the updater. Close its server c
 1. Update app/public/release.js, app/package.json and app/package-lock.json to the same semantic version (for example 1.0.0-beta.2).
 2. Run the tests, then: runtime/node.exe app/build-release.mjs PATH_TO_A_NEW_OUTPUT_FOLDER
 3. Create a GitHub Release with the matching tag v1.0.0-beta.2. Attach BOTH clarity-update.json and clarity-update.zip generated together. Publish the release. A commit alone is not a published update.
-4. Also attach the complete Windows portable ZIP for new installations. Keep user data and runtime/updates out of that ZIP.
+4. Also attach the complete Windows ZIP for new installations. Keep user data and runtime/updates out of that ZIP.
 
 The update manifest lists exact byte lengths and SHA-256 hashes. Archive entries, paths, sizes, checksums and GitHub asset digests (when provided) are validated before application. This protects integrity; repository publishing access must remain trusted. There is no embedded private token and no login requirement for end users of the public repository.

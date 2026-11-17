@@ -6,7 +6,7 @@ Extract the complete folder and double-click `Start Clarity.bat`. Keep `app`, `d
 
 Paketi çıkartıp `Start Clarity.bat` dosyasını açın. Başlangıç gerekli bileşenleri kontrol eder; eksikse kurulum izni ister. Sunucuyu başlatır, adresleri gösterir ve varsayılan tarayıcıyı açar. Sunucu çalışırken pencere açık kalmalıdır. Durdurmak için Ctrl+C kullanın.
 
-The Windows x64 release includes Node.js 24.17.0 and installed dependencies. If a compatible runtime is missing, the BAT offers a local portable download from the official Node.js distribution and verifies its SHA-256 against the official checksum list. No administrator access is required. Missing packages require consent and are installed using `npm ci --omit=dev --ignore-scripts`. Network access is required for downloads and market providers. The launcher is a BAT; no Clarity EXE, tray application or .NET launcher is included.
+The Windows x64 release includes Node.js 24.17.0 and installed dependencies. If a compatible runtime is missing, the BAT offers a local download from the official Node.js distribution and verifies its SHA-256 against the official checksum list. No administrator access is required. Missing packages require consent and are installed using `npm ci --omit=dev --ignore-scripts`. Network access is required for downloads and market providers. The launcher is a BAT; no Clarity EXE, tray application or .NET launcher is included.
 
 For a startup check only: `"Start Clarity.bat" --check`. Source development: run `npm ci`, `npm test` and `npm start` inside `app` with Node.js 24+.
 
