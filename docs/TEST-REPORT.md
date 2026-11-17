@@ -12,3 +12,11 @@
 - Release root contains Start Clarity.bat and app/docs/runtime directories. Clarity.exe and the obsolete compiled-launcher build directory were removed after archiving outside the release root.
 - This is a point-in-time verification. External providers can be delayed, unavailable or rate limited. No claim of continuous provider availability or clean-VM installation testing is made.
 
+
+## Beta 1.0 Completion Checks
+
+- 65 automated tests passed, including update integrity, path safety, version order, personal-file preservation, rollback and interrupted-swap recovery.
+- Beta info opens a real dialog and supports click, keyboard, Escape and close.
+- All 13 navigation destinations fit without menu overflow at 3440x1440, 1920x1080, 1366x768, 1280x600, 844x390 and 390x844.
+- The running launcher/server were stopped, then Start Clarity.bat performed successful local prerequisite checks and started the server with automatic browser opening.
+- The generated update ZIP was extracted by the actual Windows extraction routine and all 3111 file hashes were verified. Source repository: zekikaynak/Clarity.
