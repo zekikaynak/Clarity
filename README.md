@@ -69,6 +69,25 @@ Clarity includes the following views and tools. The list below expands the previ
 
 
 
+## Requirements & Automatic Setup
+
+**You do not need to install Node.js, npm or the application packages yourself when using the Windows installer.** The one-command installer downloads the complete Windows package, which includes Node.js and the required application dependencies. It then starts the launcher to check that everything is ready.
+
+| Requirement | How It Is Provided |
+| :--- | :--- |
+| **64-bit Windows** | A Windows computer is required. The downloadable package includes the x64 runtime. |
+| **Windows PowerShell** | Used for installation, downloads and startup checks; normally included with Windows. The installer does not install Windows or PowerShell. |
+| **Modern web browser** | Use an installed, up-to-date Edge, Chrome, Firefox or another compatible browser. Clarity opens your default browser; it does not install one. JavaScript and browser storage must be enabled. |
+| **Internet connection** | Required for installation, updates, live market feeds, news and hosted charts. |
+| **Node.js 24 or later** | Included in the Windows package. If a compatible runtime is missing, the launcher offers to download and set up the official Node.js runtime and npm inside Clarity's own `runtime` folder. |
+| **Application packages** | `cheerio`, `echarts`, `fast-xml-parser` and `ws` are included. The launcher checks their versions; if missing or mismatched, it asks for permission and installs the versions recorded in the lockfile using npm. |
+| **Writable installation folder** | Needed for setup and updates. The default is `%LOCALAPPDATA%\Programs\Clarity`; administrator access is not required. |
+| **Local port 3080** | Must be available for Clarity's local server, or already used by the same running Clarity version. |
+
+**Automatic setup:** run the installation command, and Clarity handles downloading and extracting the application, checking components, starting the local server and opening your browser. Missing runtime or package downloads require your approval in the console. Git, Python, Docker, a separate database and paid API keys are not required for the standard installation. Keep the launcher console open while using the panel.
+
+**Türkçe:** Windows kurulumunu kullanırken Node.js, npm veya uygulama paketlerini önceden elle kurmanız gerekmez. Windows paketi Node.js ve gerekli paketleri içerir. Kurulum komutu uygulamayı indirip kurar; başlatıcı bileşenleri kontrol eder, eksik bileşen varsa onayınızı alarak indirip kurar, sunucuyu başlatır ve tarayıcıyı açar. Sizin sağlamanız gerekenler 64 bit Windows, Windows PowerShell, güncel bir tarayıcı, internet bağlantısı ve yazılabilir bir kurulum klasörüdür. Kurulum Windows'u veya tarayıcıyı kurmaz. Yönetici izni gerekmez.
+
 ## Quick Start
 
 ### One-Command Install · Windows
