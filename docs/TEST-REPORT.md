@@ -27,3 +27,9 @@
 
 ## Update 2 · 1.0.0-beta.2
 65 tests passed. The 8-entry primary menu and 6-entry tools panel retain all 13 destinations. Six viewport sizes from 390 px mobile to 3440 px ultrawide showed no navigation or horizontal page overflow. English overview and native-English terminal screenshots are included under docs/media; they are live captures, not mockups.
+
+## Update 3 · 1.0.0-beta.3
+
+- Restored thirteen directly accessible sidebar destinations in their original order and the previous adaptive row layout. Reduced only the navigation text size to .76rem (.72rem on short viewports).
+- Removed the More Tools popup and its styling. README Features now lists thirty individual capabilities, with coverage and session limitations.
+- 65 automated tests passed. Browser verification was attempted but the browser service stopped responding, including after a reset. No new visual/responsive screenshot verification is claimed for this update; README previews are identified as Update 2 captures.

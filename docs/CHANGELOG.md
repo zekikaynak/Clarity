@@ -18,3 +18,9 @@ Version: 1.0.0-beta.1 · 18 November 2026
 - Checked navigation and page overflow at 3440x1440, 1920x1080, 1366x768, 1280x600, 844x390 and 390x844. The secondary tools panel was exercised by opening Derivatives.
 - Added full-screen English overview and terminal captures to the repository README, with professional badges, feature summaries and setup/update documentation.
 - All 65 automated tests passed.
+
+## Beta 1.0 · Update 3 (1.0.0-beta.3)
+
+- Restored all thirteen sidebar destinations in their original order and removed the More Tools panel. Menu labels are slightly smaller.
+- Expanded README Features to thirty individual capabilities, with explicit coverage limits instead of six broad groups.
+- Retained the English Update 2 previews with their capture version identified. Browser screenshot verification was unavailable for Update 3.

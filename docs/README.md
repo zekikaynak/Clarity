@@ -19,27 +19,54 @@
 
 ## ◈ The Market, In One View
 
-Full-screen capture of the English interface. Prices and dates reflect the moment of capture.
+Full-screen English preview captured in Update 2. Update 3 restores all thirteen destinations directly in the sidebar. Prices and dates reflect the moment of capture.
 
-![Clarity overview — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-overview-en.jpg)
+![Clarity overview — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-overview-en.jpg?v=beta3)
 
 ## ⌁ Inside Clarity
 
-| | Workspace | What You Can Explore |
-| :---: | :--- | :--- |
-| 📈 | **Live Terminal** | Streaming candles, the native drawing toolbar, readable volume, candle details and closing countdowns. |
-| ◫ | **Market Structure** | Buy and sell depth, real-time trades, large pending levels, funding and available liquidation views. |
-| ☆ | **Watchlists** | Coin pairs, dominance and index instruments, named groups and local preferences. |
-| ▤ | **ETF Center** | BTC, ETH, SOL, XRP and HYPE flow coverage, daily summaries and source status. |
-| ◎ | **News & Macro** | Market headlines, Turkish headline translation, a global economic calendar and crypto importance indicators. |
-| ◇ | **Research Tools** | Cycle indicators, on-chain and DeFi views, portfolio tools and alerts, accessible through **More Tools**. |
+Clarity includes the following views and tools. The list below expands the previous six-category summary; data coverage and refresh frequency depend on each source.
 
-**Designed To Stay Clear:** a spacious primary menu, a dedicated tools panel, themed dialogs and layouts that adapt to desktop, ultrawide and smaller screens. Turkish and English include their own date, time and number formats.
+| | Feature | Available In The Panel |
+| :---: | :--- | :--- |
+| ◈ | **Market Overview** | Bitcoin, total market capitalization, dominance, Fear & Greed and Altcoin Season summaries. |
+| 📈 | **Live Candlestick Charts** | Multiple intervals, native chart controls, zoom, fullscreen and a drawing toolbar. |
+| ◷ | **Candle & Daily Countdowns** | Time remaining until the selected candle closes and the UTC trading day ends. |
+| ▥ | **Recent Volume** | Logarithmic or linear scaling, a resizable area and remembered display preferences. |
+| ⌖ | **Candle Details** | Click a volume bar to inspect its time, open, high, low, close, change and actual volume. |
+| ⇄ | **Funding Explained** | Funding rate, payment countdown and a plain-language explanation of which side pays. |
+| ◫ | **Order Book** | Separate bid and ask panels with prices, quantities and quote values. |
+| ⌁ | **Real-Time Trades** | Streaming executions with trade direction, amount and timestamp. |
+| ◆ | **Large Pending Orders** | The largest aggregated buy and sell levels within the received depth. |
+| ☆ | **Grouped Watchlists** | Add or remove assets, create named groups and choose group colors. |
+| ◎ | **Dominance & Index Instruments** | A separate instrument category, including BTC and USDT dominance and supported market-cap indices. |
+| ⌕ | **Market Explorer** | Search crypto pairs, follow price and volume changes, and keep stablecoins after other assets. |
+| ▦ | **Crypto Heatmap** | Market size and 24-hour price changes in a color-coded market view. |
+| ▦ | **RSI Heatmap** | Compare overbought and oversold readings across available assets. |
+| ♨ | **Liquidity & Liquidation Maps** | Live order density, clearly identified estimated liquidation regions and actual liquidation-flow views. |
+| ⇄ | **Derivatives Monitor** | Funding, open interest, changes in positioning and available long/short ratios. |
+| ⬡ | **Whale Tracker** | Public Hyperliquid wallet-position coverage. |
+| ▤ | **Five-Asset ETF Center** | BTC, ETH, SOL, XRP and HYPE flows, a combined daily report and individual detail views. |
+| ≋ | **Newsroom & Headline Ribbon** | Market headlines, original article links, Turkish headline translation and visual crypto-importance indicators. |
+| ◷ | **Global Economic Calendar** | Event times, Turkish event names, crypto importance, previous readings, forecasts and published actuals when available. |
+| ◎ | **Macro Monitor** | Available interest-rate, inflation, money-supply, Treasury-yield and volatility series. |
+| ◇ | **Cycle Compass** | A 30-indicator coverage view with source values and locally calculated technical models. |
+| ↗ | **Bitcoin Research Charts** | 200-week average, Rainbow, Pi Cycle, 2-year MA, Golden Ratio, Puell, MVRV, Reserve Risk, CBBI, NUPL, AHR999 and related reference views. |
+| ▥ | **Monthly Returns** | A Bitcoin monthly-return view calculated from the available daily price history. |
+| ⬡ | **On-Chain & DeFi** | Available Bitcoin-network, DeFi and stablecoin-market information. |
+| ◈ | **Portfolio Tracking** | Manual holdings, cost and exchange/wallet labels, valuation, gross profit/loss and record export. |
+| ◉ | **Price Alerts** | Above/below target alerts evaluated while the panel and relevant instrument stream are active. |
+| ◉ | **Connection Status** | Source diagnostics, last-check information, retry timing and reconnection controls. |
+| ◐ | **Turkish & English** | Interface language, native chart language, localized numbers, dates and times. |
+| ↻ | **GitHub Updates** | Startup release checks, integrity verification, application backups and interrupted-update recovery. |
+
+**Direct Navigation:** all thirteen main destinations are listed directly in the sidebar, with compact, readable labels and an adaptive layout for desktop, ultrawide and smaller screens.
+
 
 <details>
 <summary><strong>View The English Live Terminal</strong></summary>
 
-![Clarity live terminal — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-terminal-en.jpg)
+![Clarity live terminal — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-terminal-en.jpg?v=beta3)
 
 </details>
 
