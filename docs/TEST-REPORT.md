@@ -33,3 +33,10 @@
 - Restored thirteen directly accessible sidebar destinations in their original order and the previous adaptive row layout. Reduced only the navigation text size to .76rem (.72rem on short viewports).
 - Removed the More Tools popup and its styling. README Features now lists thirty individual capabilities, with coverage and session limitations.
 - 65 automated tests passed. Browser verification was attempted but the browser service stopped responding, including after a reset. No new visual/responsive screenshot verification is claimed for this update; README previews are identified as Update 2 captures.
+
+## Update 4 · 1.0.0-beta.4
+
+- Includes the pending connection-health, developer-support, volume-toolbar and crypto-oriented calendar-label changes documented in the changelog.
+- Captured the current English overview at a 1920x1080 desktop viewport and the entire current English live-terminal page, including the chart, volume, watchlist and four order-flow panels. Both JPEG files were visually inspected; the terminal capture includes native candles and loaded live data.
+- Both screenshots are directly embedded in the README with an Update 4 cache key. User language selection and temporary viewport override were restored after capture.
+- All 65 existing tests passed. Previously documented targeted checks cover the connection states and conditional crypto-impact labels. No user records, browser storage or credentials are included in the release archive.

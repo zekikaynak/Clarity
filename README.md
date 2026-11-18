@@ -19,9 +19,9 @@
 
 ## ◈ The Market, In One View
 
-Full-screen English preview captured in Update 2. Update 3 restores all thirteen destinations directly in the sidebar. Prices and dates reflect the moment of capture.
+Current English overview captured in Update 4. Prices and dates reflect the moment of capture.
 
-![Clarity overview — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-overview-en.jpg?v=beta3)
+![Clarity overview — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-overview-en.jpg?v=beta4)
 
 ## ⌁ Inside Clarity
 
@@ -48,7 +48,7 @@ Clarity includes the following views and tools. The list below expands the previ
 | ⬡ | **Whale Tracker** | Public Hyperliquid wallet-position coverage. |
 | ▤ | **Five-Asset ETF Center** | BTC, ETH, SOL, XRP and HYPE flows, a combined daily report and individual detail views. |
 | ≋ | **Newsroom & Headline Ribbon** | Market headlines, original article links, Turkish headline translation and visual crypto-importance indicators. |
-| ◷ | **Global Economic Calendar** | Event times, Turkish event names, crypto importance, previous readings, forecasts and published actuals when available. |
+| ◷ | **Global Economic Calendar** | Event times, Turkish names, importance, previous/forecast/actual values and separately labeled conditional crypto-impact estimates. Neutral surprise and uncertain impact are distinguished. |
 | ◎ | **Macro Monitor** | Available interest-rate, inflation, money-supply, Treasury-yield and volatility series. |
 | ◇ | **Cycle Compass** | A 30-indicator coverage view with source values and locally calculated technical models. |
 | ↗ | **Bitcoin Research Charts** | 200-week average, Rainbow, Pi Cycle, 2-year MA, Golden Ratio, Puell, MVRV, Reserve Risk, CBBI, NUPL, AHR999 and related reference views. |
@@ -63,12 +63,11 @@ Clarity includes the following views and tools. The list below expands the previ
 **Direct Navigation:** all thirteen main destinations are listed directly in the sidebar, with compact, readable labels and an adaptive layout for desktop, ultrawide and smaller screens.
 
 
-<details>
-<summary><strong>View The English Live Terminal</strong></summary>
+## ⌁ Live Terminal
 
-![Clarity live terminal — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-terminal-en.jpg?v=beta3)
+![Clarity live terminal — English interface](https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/media/clarity-terminal-en.jpg?v=beta4)
 
-</details>
+
 
 ## ▶ Quick Start
 

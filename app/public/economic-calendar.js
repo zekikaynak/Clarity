@@ -15,12 +15,34 @@ export async function loadCalendarSummary({api,target}){if(!target)return;try{co
 const regions={USD:'ABD',JPY:'Japonya',EUR:'Euro Bölgesi',CNY:'Çin',GBP:'Birleşik Krallık',CAD:'Kanada',AUD:'Avustralya',CHF:'İsviçre',NZD:'Yeni Zelanda'};
 const present=x=>x!==null&&x!==undefined&&String(x).trim()!=='';
 export function calendarResult(event,now=Date.now()){
- if(present(event.actual))return `<span class="calendar-number calendar-actual">${esc(event.actual)}</span>${resultComparison(event.actual,event.forecast)}`;
+ if(present(event.actual)){const impact=calendarCryptoImpact(event),labels={positive:['Kripto: Olası Destek','Crypto: Potential Support'],negative:['Kripto: Olası Baskı','Crypto: Potential Pressure'],neutral:['Kripto: Nötr Sürpriz','Crypto: No Surprise'],uncertain:['Kripto: Etki Belirsiz','Crypto: Impact Uncertain']};return `<span class="calendar-result calendar-result-${impact.tone}" title="${esc(impact.reason)}"><span class="calendar-number calendar-actual">${esc(event.actual)}</span>${resultComparison(event.actual,event.forecast)}<span class="calendar-crypto-impact">${labels[impact.tone][language==='en'?1:0]}</span></span>`;}
  if(/speech|meeting|conference|statement|minutes|report|summary of opinions|auction/i.test(event.title)&&!present(event.forecast)&&!present(event.previous))return `<span class="calendar-pending">${Date.parse(event.date)>now?'Etkinlik Bekleniyor':'Sayısal Sonuç Yok'}</span>`;
  return `<span class="calendar-pending">${Date.parse(event.date)>now?'Henüz Açıklanmadı':event.actualSupported===false?'Sonuç Kaynakta Yok':'Sonuç Alınamadı'}</span>`;
 }
+const parseResult=v=>{const m=String(v??'').replace(/,/g,'').trim().match(/^([+-]?\d+(?:\.\d+)?)\s*([%KMBT]?)$/i);return m?{value:+m[1],unit:m[2].toUpperCase()}:null;};
+export function calendarCryptoImpact(event){
+ const text=(tr,en)=>language==='en'?en:tr;
+ const uncertain=()=>({tone:'uncertain',reason:text('Bu sonuçtan kripto yönü güvenilir biçimde çıkarılamıyor.','Crypto direction cannot be reliably inferred from this result.')});
+ const a=parseResult(event.actual),f=parseResult(event.forecast);if(!a||!f||a.unit!==f.unit)return uncertain();
+ if(a.value===f.value)return {tone:'neutral',reason:text('Beklentiyle aynı: sayısal sürpriz yok. Bu, fiyatın değişmeyeceği anlamına gelmez.','Matches forecast: no numerical surprise. Prices may still move.')};
+ if(event.country!=='USD')return uncertain();
+ const title=event.title||'',higher=a.value>f.value;
+ const inflation=/\bcpi\b|\bppi\b|\bpce\b|consumer price|producer price|personal consumption expenditures.*price|import price|export price|inflation rate/i.test(title);
+ const rates=/interest rate decision|fed.*rate decision|federal funds rate/i.test(title);
+ const jobs=/non.?farm.*(?:payroll|employment)|adp.*employment|average hourly earnings/i.test(title);
+ const claims=/unemployment rate|initial jobless claims|continuing jobless claims/i.test(title);
+ const growth=/\bgdp\b|gross domestic product|retail sales|industrial production/i.test(title);
+ if(!inflation&&!rates&&!jobs&&!claims&&!growth)return uncertain();
+ // A policy/liquidity-channel heuristic, not an observed or guaranteed price reaction.
+ // Severe weakness/deflation can trigger risk-off instead of an easing rally.
+ if((inflation||growth||jobs)&&(a.value<0||f.value<0))return uncertain();
+ if(claims&&Math.abs(a.value-f.value)>Math.max(Math.abs(f.value)*.15,a.unit==='%'?.3:0))return uncertain();
+ const pressure=claims?!higher:higher;
+ return {tone:pressure?'negative':'positive',reason:text('Koşullu ABD para politikası/likidite modeli: '+(pressure?'daha sıkı politika beklentisi kriptoyu baskılayabilir.':'gevşeme beklentisi kriptoyu destekleyebilir.')+' Resesyon, diğer veriler ve fiyatlama tepkiyi tersine çevirebilir; kesin tahmin değildir.','Conditional US policy/liquidity model: '+(pressure?'tighter-policy expectations may pressure crypto.':'easing expectations may support crypto.')+' Recession risk, other releases and prior pricing can reverse the reaction; this is not a prediction.')};
+}
+export function calendarResultTone(event){return calendarCryptoImpact(event).tone;}
 export function resultComparison(actual,forecast){
- const parse=v=>{const m=String(v??'').replace(/,/g,'').trim().match(/^([+-]?\d+(?:\.\d+)?)\s*([%KMBT]?)$/i);return m?{value:+m[1],unit:m[2].toUpperCase()}:null;},a=parse(actual),f=parse(forecast);
+ const a=parseResult(actual),f=parseResult(forecast);
  if(!a||!f||a.unit!==f.unit)return '';
  return `<small class="calendar-surprise ${a.value>f.value?'above':a.value<f.value?'below':'equal'}">${a.value>f.value?'Beklentinin Üstünde':a.value<f.value?'Beklentinin Altında':'Beklentiyle Aynı'}</small>`;
 }

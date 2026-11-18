@@ -31,7 +31,9 @@ export function mountVolumeStrip(shell){
  const saved=localStorage.getItem(KEY),legacy=localStorage.getItem('clarity.volume-height');
  let volumeScale=localStorage.getItem(SCALE_KEY)==='linear'?'linear':'log';
  const scaleSelect=panel.querySelector('select');scaleSelect.value=volumeScale;scaleSelect.onchange=()=>{volumeScale=scaleSelect.value==='linear'?'linear':'log';localStorage.setItem(SCALE_KEY,volumeScale);hover=-1;draw();};
- let size=volumeHeight(saved??(Number(legacy)===96?null:legacy)),symbol,period,rows=[],socket,retry,refresh,version=0,disposed=false,hover=-1,pointerInside=false,drag=null,live=false,selectedTime=null,historyReady=false;
+ let size=volumeHeight(saved??(Number(legacy)===96?null:legacy)),symbol,period,rows=[],socket,retry,refresh,version=0,disposed=false,hover=-1,pointerInside=false,drag=null,live=false,selectedTime=null,historyReady=false,frame=0,popupHTML='';
+ const setText=(node,value)=>{if(node.textContent!==value)node.textContent=value;};
+ const scheduleDraw=()=>{if(!frame)frame=requestAnimationFrame(()=>{frame=0;if(!disposed)draw();});};
  const visibleRows=()=>historyReady?rows.slice(-Math.min(240,Math.max(24,Math.floor(canvas.clientWidth/12)))):[];
  const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const number=n=>n==null?'—':n.toLocaleString(locale,{maximumFractionDigits:8});
@@ -42,7 +44,7 @@ export function mountVolumeStrip(shell){
   const d=volumeDetails(row,symbol,period),tone=d.change==null?'':d.change>=0?'up':'down';
   popup.setAttribute('data-direction',tone||'neutral');
   const html=`<div class="volume-popup-head"><strong>Mum Detayları</strong><button type="button" aria-label="Mum Detaylarını Kapat">×</button></div><div class="volume-popup-pair">${escape(symbol.replace(/USDT$/,' - USDT'))} <span>${escape(period)}</span></div><div class="volume-popup-time">${stamp(d.start)}${d.end?' → '+stamp(d.end):''}<small class="${d.closed===false?'candle-open':'candle-closed'}">İstanbul Saati · ${d.closed==null?'Durum Bilinmiyor':d.closed?'Kapanmış Mum':'Açık Mum · Güncelleniyor'}</small></div><dl><div class="candle-open-price"><dt>Açılış</dt><dd>${number(d.open)} USDT</dd></div><div class="candle-high"><dt>En Yüksek</dt><dd>${number(d.high)} USDT</dd></div><div class="candle-low"><dt>En Düşük</dt><dd>${number(d.low)} USDT</dd></div><div class="candle-close ${tone}"><dt>Kapanış${d.closed===false?' / Anlık':''}</dt><dd>${number(d.close)} USDT</dd></div><div class="candle-change ${tone}"><dt>Değişim</dt><dd class="${tone}">${d.change==null?'—':(d.change>0?'+':'')+d.change.toLocaleString(locale,{maximumFractionDigits:2})+'%'}</dd></div><div class="candle-volume"><dt>Hacim</dt><dd>${number(d.volume)} ${escape(symbol.replace(/USDT$/,''))}</dd></div></dl>`;
-  if(popup.innerHTML!==html)popup.innerHTML=html;
+  if(popupHTML!==html){popupHTML=html;popup.innerHTML=html;}
  }
  function closePopup(){if(popup.matches(':popover-open'))popup.hidePopover();if(shield.matches(':popover-open'))shield.hidePopover();selectedTime=null;hover=-1;canvas.style.cursor='default';if(document.activeElement===canvas)canvas.blur();draw();}
  function openPopup(row,x,y){if(!row)return;selectedTime=row.time;updatePopup();shield.showPopover();popup.showPopover();const r=popup.getBoundingClientRect();popup.style.left=Math.max(10,Math.min(innerWidth-r.width-10,x+12))+'px';popup.style.top=Math.max(10,Math.min(innerHeight-r.height-10,y-r.height-12))+'px';}
@@ -55,16 +57,16 @@ export function mountVolumeStrip(shell){
  const resize=new ResizeObserver(draw);resize.observe(panel);
  function draw(){
   const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
-  const dpr=devicePixelRatio||1;canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,r.width,r.height);
+  const dpr=devicePixelRatio||1,width=Math.round(r.width*dpr),height=Math.round(r.height*dpr);if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,r.width,r.height);
   if(!historyReady||!rows.length)return;
   const visible=visibleRows();
   for(const bar of volumeBarRects(visible,r.width,r.height,volumeScale)){const i=bar.index,x=visible[i];ctx.fillStyle=x.close>=x.open?'#42b9a7':'#dc7888';ctx.globalAlpha=pointerInside?(hover===i?1:0.68):0.92;ctx.fillRect(bar.x,bar.y,bar.width,bar.height);}ctx.globalAlpha=1;
   const stamp=t=>dateTimeFormat(t*1000,{year:false});
   ctx.fillStyle='#7f98b9';ctx.font='10px Segoe UI';ctx.textAlign='left';ctx.fillText(stamp(visible[0].time),2,r.height-3);ctx.textAlign='right';ctx.fillText(stamp(visible.at(-1).time),r.width-2,r.height-3);
   const selected=visible[Math.min(visible.length-1,hover<0?visible.length-1:hover)];
-  label.textContent=selected.volume.toLocaleString(locale,{maximumFractionDigits:2})+' '+symbol.replace(/USDT$/,'');
-  note.textContent=language==='en'?(live?'● Live':'Latest Data')+' · '+period+' · Last '+visible.length+' Candles':(live?'● Canlı':'Son Veri')+' · '+period+' · Son '+visible.length+' Mum';
-  if(hover>=0)note.textContent=stamp(selected.time)+' · '+period;
+  setText(label,selected.volume.toLocaleString(locale,{maximumFractionDigits:2})+' '+symbol.replace(/USDT$/,''));
+  // Keep connection/period/count in one stable slot. Hover details belong to the selected bar.
+  setText(note,language==='en'?(live?'● Live':'Latest Data')+' · '+period+' · Last '+visible.length+' Candles':(live?'● Canlı':'Son Veri')+' · '+period+' · Son '+visible.length+' Mum');
   updatePopup();
  }
  function stop(){socket?.close();socket=null;clearTimeout(retry);clearInterval(refresh);live=false;}
@@ -88,11 +90,11 @@ export function mountVolumeStrip(shell){
  handle.onpointermove=e=>{if(!drag)return;size=Math.round(Math.max(64,Math.min(360,shell.clientHeight*.45,drag.size+drag.y-e.clientY)));applyHeight();};
  const finish=()=>{if(drag){drag=null;localStorage.setItem(KEY,String(size));}};handle.onpointerup=finish;handle.onpointercancel=finish;
  handle.onkeydown=e=>{if(!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;e.preventDefault();size=e.key==='Home'?144:e.key==='End'?360:Math.max(64,Math.min(360,size+(e.key==='ArrowUp'?8:-8)));applyHeight();localStorage.setItem(KEY,String(size));};
- panel.onpointerenter=()=>{pointerInside=true;draw();};
- panel.onpointerleave=()=>{pointerInside=false;hover=-1;canvas.style.cursor='default';draw();};
+ panel.onpointerenter=()=>{pointerInside=true;scheduleDraw();};
+ panel.onpointerleave=()=>{pointerInside=false;hover=-1;canvas.style.cursor='default';scheduleDraw();};
  const hit=e=>{const r=canvas.getBoundingClientRect();return volumeBarAt(volumeBarRects(visibleRows(),r.width,r.height,volumeScale),e.clientX-r.left,e.clientY-r.top);};
- canvas.onpointermove=e=>{hover=hit(e);canvas.style.cursor=hover<0?'default':'pointer';draw();};canvas.onpointerleave=()=>{hover=-1;canvas.style.cursor='default';draw();};
+ canvas.onpointermove=e=>{const next=hit(e);if(next===hover)return;hover=next;canvas.style.cursor=hover<0?'default':'pointer';scheduleDraw();};canvas.onpointerleave=()=>{hover=-1;canvas.style.cursor='default';scheduleDraw();};
  canvas.onclick=e=>{const i=hit(e);if(i<0){closePopup();return;}openPopup(visibleRows()[i],e.clientX,e.clientY);draw();};
  canvas.onkeydown=e=>{const list=visibleRows();if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();hover=Math.max(0,Math.min(list.length-1,(hover<0?list.length-1:hover)+(e.key==='ArrowLeft'?-1:1)));draw();}if(e.key==='Enter'||e.key===' '){e.preventDefault();const r=canvas.getBoundingClientRect();openPopup(list[hover<0?list.length-1:hover],r.left+r.width/2,r.top);}};
- return {setInstrument,remove(){disposed=true;version++;stop();resize.disconnect();document.removeEventListener('keydown',escapePopup,true);shield.remove();popup.remove();handle.remove();panel.remove();}};
+ return {setInstrument,remove(){disposed=true;version++;if(frame)cancelAnimationFrame(frame);stop();resize.disconnect();document.removeEventListener('keydown',escapePopup,true);shield.remove();popup.remove();handle.remove();panel.remove();}};
 }
