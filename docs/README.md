@@ -71,6 +71,23 @@ Clarity includes the following views and tools. The list below expands the previ
 
 ## ▶ Quick Start
 
+### One-Command Install · Windows
+
+Open **PowerShell** (no administrator access needed) and paste:
+
+```powershell
+& ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/zekikaynak/Clarity/main/docs/install.ps1')))
+```
+
+Downloads the most recently published Windows release (including beta), verifies its SHA-256 digest and installs to `%LOCALAPPDATA%\Programs\Clarity`. It then opens **Start Clarity.bat**, which starts the server and your browser. Keep its console open while using Clarity. Running the command again opens the existing installation and its normal update check; existing files and browser data are not overwritten. An unrelated existing destination is left untouched. No Git or preinstalled Node.js is required.
+
+**Türkçe:** PowerShell'i açıp komutu yapıştırın. Güncel Windows paketi doğrulanarak kurulur ve Clarity açılır. Yönetici izni gerekmez; mevcut kurulum ve kullanıcı verileri korunur.
+
+[Review the installer before running it](https://github.com/zekikaynak/Clarity/blob/main/docs/install.ps1). For a custom folder, append `-InstallPath 'D:\Apps\Clarity'` to the command. Append `-NoLaunch` to install without starting the panel.
+
+### Manual Download
+
+
 1. Download **Clarity-Beta-1.0-Windows.zip** from [GitHub Releases](https://github.com/zekikaynak/Clarity/releases).
 2. Extract the complete folder, keeping `app`, `docs` and `runtime` together.
 3. Open **Start Clarity.bat**. It checks the required components, starts the local server and opens your default browser.
